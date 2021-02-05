@@ -1,0 +1,8 @@
+
+public class Periodic extends Thread {
+	private  int period;
+	
+	public static void main(String[] args) {
+		
+	}
+}

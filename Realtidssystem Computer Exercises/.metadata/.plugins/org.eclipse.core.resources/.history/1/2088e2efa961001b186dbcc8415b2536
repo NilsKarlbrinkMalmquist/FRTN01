@@ -1,0 +1,28 @@
+
+public class Periodic extends Thread {
+	private  int period;
+	
+	public Periodic(int period) {
+	    this.period = period;
+	}
+	
+	public void run() {
+		try {
+			while(!Thread.interrupted()) {
+				System.out.print(period);
+				System.out.print(", ");
+				
+				Thread.sleep(period);
+			}
+		} catch(InterruptedException e){
+			//Requested to stop
+		}
+		System.out.println("Thread stopped.");
+	}
+	
+	public static void main(String[] args) {
+		Periodic p = new Periodic(1000);
+		p.start();
+		new Periodic(2000).start();
+	}
+}

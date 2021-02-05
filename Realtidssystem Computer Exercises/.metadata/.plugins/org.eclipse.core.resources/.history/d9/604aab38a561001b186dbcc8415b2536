@@ -1,0 +1,19 @@
+
+public class Periodic extends Thread {
+	private  int period;
+	
+	public Periodic(int period) {
+	    this.period = period;
+	}
+	
+	public void run() {
+		System.out.println(period);
+		System.out.println(", ");
+	}
+	
+	
+	
+	public static void main(String[] args) {
+		Periodic p = new Periodic(1000);
+	}
+}
