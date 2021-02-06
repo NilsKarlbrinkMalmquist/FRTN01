@@ -6,12 +6,14 @@ import java.io.InputStreamReader;
 
 public class OpCom extends Thread {
 	private Regul regul;
-	
+
 	// Constructor
 	public OpCom(Regul regul, int priority) {
         //TODO C2.E10: Store variables and set priority //
+				this.regul = regul;
+				setPriority(priority);
     }
-	
+
 	// run method
 	public void run() {
         //NOTE: Make sure you understand what is happening //
