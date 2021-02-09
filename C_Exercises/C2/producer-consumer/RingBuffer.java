@@ -6,7 +6,13 @@
 public class RingBuffer implements RingBufferInterface {
 
     //TODO C2.E14: Declare private variables //
-    
+    private Object[] elements;
+    private int nbrOfElementsInBuf = 0; //curSize
+    private final int bufSize;
+    private int nextRead = 0;
+    private int nextWrite = 0;
+
+
     /*
      * Constructor for the class RingBuffer
      *
@@ -15,6 +21,8 @@ public class RingBuffer implements RingBufferInterface {
      */
     public RingBuffer(int bufSize) {
         //TODO C2.E14: Write your code here //
+        this.bufSize = bufSize;
+        elements = new Object[bufSize];
     }
 
     /*
@@ -27,8 +35,15 @@ public class RingBuffer implements RingBufferInterface {
      */
     public synchronized Object get() throws InterruptedException {
         //TODO C2.E14: Write your code here //
-        Thread.sleep(1);
-    	return new Object();
+        while(nbrOfElementsInBuf == 0){
+          wait();
+        }
+        Object returnObj = elements[nextRead];
+        elements[nextRead] = null;
+        nextRead = (nextRead + 1) % bufSize;
+        nbrOfElementsInBuf--;
+        notifyAll();
+        return returnObj;
     }
 
     /*
@@ -41,6 +56,12 @@ public class RingBuffer implements RingBufferInterface {
      */
     public synchronized void put(Object o) throws InterruptedException {
         //TODO C2.E14: Write your code here //
-        Thread.sleep(1);
+        while(nbrOfElementsInBuf == bufSize){
+          wait();
+        }
+        elements[nextWrite] = o;
+        nextWrite = (nextWrite + 1) % bufSize;
+        nbrOfElementsInBuf++;
+        notifyAll();
     }
 }

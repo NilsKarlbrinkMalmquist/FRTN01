@@ -9,7 +9,17 @@ import se.lth.control.realtime.ConditionVariable;
 public class RingBufferWithSemaphore implements RingBufferInterface {
 
     //TODO C2.E15: Declare private variables //
-    
+    private Object[] elements;
+    private int nbrOfElementsInBuf = 0; //curSize
+    private final int bufSize;
+    private int nextRead = 0;
+    private int nextWrite = 0;
+
+    private Semaphore sem;
+    private ConditionVariable nonEmpty;
+    private ConditionVariable nonFull;
+
+
     /*
      * Constructor for the class RingBufferWithSemaphore
      *
@@ -18,6 +28,12 @@ public class RingBufferWithSemaphore implements RingBufferInterface {
      */
     public RingBufferWithSemaphore(int bufSize) {
         //TODO C2.E15: Write your code here //
+        this.bufSize = bufSize;
+        elements = new Object[bufSize];
+
+        sem = new Semaphore(1);
+        nonEmpty = new ConditionVariable(sem);
+        nonFull = new ConditionVariable(sem);
     }
 
     /*
@@ -30,8 +46,17 @@ public class RingBufferWithSemaphore implements RingBufferInterface {
      */
     public Object get() throws InterruptedException {
         //TODO C2.E15: Write your code here //
-        Thread.sleep(1);
-    	return new Object();
+        sem.take();
+        while(nbrOfElementsInBuf == 0){
+          nonEmpty.cvWait();
+        }
+        Object returnObj = elements[nextRead];
+        elements[nextRead] = null;
+        nextRead = (nextRead + 1) % bufSize;
+        nbrOfElementsInBuf--;
+        nonFull.cvNotifyAll();
+        sem.give();
+        return returnObj;
     }
 
     /*
@@ -44,6 +69,14 @@ public class RingBufferWithSemaphore implements RingBufferInterface {
      */
     public void put(Object o) throws InterruptedException {
         //TODO C2.E15: Write your code here //
-        Thread.sleep(1);
+        sem.take();
+        while(nbrOfElementsInBuf == bufSize){
+          nonFull.cvWait();
+        }
+        elements[nextWrite] = o;
+        nextWrite = (nextWrite + 1) % bufSize;
+        nbrOfElementsInBuf++;
+        nonEmpty.cvNotifyAll();
+        sem.give();
     }
 }
