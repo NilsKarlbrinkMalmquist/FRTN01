@@ -36,6 +36,7 @@ public class PID {
 		e = yref - y;
 		D = ad * D - bd * (y - yOld);
 		v = p.K * (p.Beta * yref - y) + I + D;
+		this.y = y;
 		return v;
     }
 	
@@ -50,7 +51,7 @@ public class PID {
 		else {
 			I = 0.0;
 		}
-		//yOld = y; Enl föreläsningsanteckningar?
+		yOld = y; //Enl föreläsningsanteckningar?
     }
 	
 	// Returns the sampling interval expressed as a long.
