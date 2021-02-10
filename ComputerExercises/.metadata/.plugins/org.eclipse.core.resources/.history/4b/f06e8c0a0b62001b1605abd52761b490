@@ -1,0 +1,30 @@
+
+public class PeriodicRunnable extends Base implements Runnable {
+	private int period;
+	
+	public PeriodicRunnable(int period) {
+		this.period = period;
+	}
+
+	@Override
+	public void run() {
+		try {
+			while(!Thread.interrupted()) {
+				System.out.print(period);
+				System.out.print(", ");
+				
+				Thread.sleep(period);
+			}
+		} catch(InterruptedException e){
+			//Requested to stop
+		}
+		System.out.println("Thread stopped.");
+	}
+	
+	public static void main(String[] args) {
+		PeriodicRunnable m = new PeriodicRunnable(1000);
+		Thread t = new Thread(m);
+		t.start();
+	}
+	
+}
