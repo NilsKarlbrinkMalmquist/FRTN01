@@ -1,0 +1,123 @@
+%Uppg 1.2
+%Use Matlab to discretize the controller assuming h = 0.1 using the various
+%methods below. Plot the Bode diagram of the continuous-time controller and
+%the discrete-time approximations. Which approximation is the best?
+
+%s = tf('s');
+% G = (1 + s)/(s + s/10)^2;
+% bode(G);
+% hold on;
+% h = 0.1;
+% z = tf('z',h);
+% 
+% 
+% 
+% %a) Using Forward difference:
+% sp = (z-1)/h; % Euler’s method
+% H1 = (1+sp)/(1+sp/10)^2; % discrete approximation
+% bode(H1);
+% 
+% %b) Using Backward difference:
+% sp = z-1/(z*h);
+% H2 = (1+sp)/(1+sp/10)^2;
+% bode(H2);
+% 
+% %c) Using Tustin's method:
+% sp = (2*(z-1))/(h*(z+1));
+% H3 = (1+sp)/(1+sp/10)^2;
+% bode(H3);
+% 
+% %d)Using Ramp invariance (first-order hold):
+% H4 = c2d(G,h,'foh');
+% bode(H4);
+
+
+%-------------------------------------------------------------------------%
+
+%%Uppg 1.4:
+%%Write pseudo-code for a PID-controller on standard, parallel form. The controller 
+%%should include anti-reset windup based on tracking with internal control signal limitation, 
+%%support for manual control mode with increment/decrement
+%%action, and bumpless mode changes. The derivative action should act on the
+%%measured signal only
+% 
+% y = ADIn(ychan)
+% e = yref - y
+% D = ad * D - bd * (y - yold)
+% v = K*(beta*yref - y) + I + D
+% if mode = auto then u = sat(v,umax,umin)
+% else u = sat(uman,umax,umin)
+% DAOut(u,uchan)
+% I = I + (K*h/Ti)*e + (h/Tr)*(u - v)
+% if increment then 
+%     uinc = 1
+% elsif decrement then
+%     uinc := -1
+% else
+%     uinc := 0
+% uman := uman + (h/Tm) * uinc + (h/Tr) * (u - uman)
+% yold := y
+%%ad and bd are pre-calculated parameters given by the backward difference
+%%approximation of the D-term, i.e., as
+
+% ad := Td / (Td + N*h);
+% bd := K*Td*N / (Td + N*h);
+
+
+%-------------------------------------------------------------------------%
+
+
+%Uppg 1.5
+A  = [-3 1; 0 -2];
+B = [0; 1];
+C = [1 0];
+D = [0];
+
+%a) Use Matlab to determine a continuous-time state-feedback controller 
+%u(t) = −K*x(t) such that the characteristic polynomial of the closed-loop system is
+%s^2 + 8s + 32.
+
+K = place(A, B, roots([1 8 32]))
+
+%b)Assuming h = 0.1, modify the controller using “state-feedback redesign” 
+%(see p. 71–72 in the IFAC PB ). The suggested translation from continuous-time
+% K to discrete-time K˜ is 
+%K˜ = K(I + (A − BK)h/2)
+
+%%We can now form three controllers:
+%%(1) Use the continuous control u(t) = −K x(t). The closed-loop system is
+%%described by x˙ = (A − BK)x.
+%%(2) Use the discrete control u(kh) = −K x(kh). The closed-loop system is
+%%described x(n + 1) = (Φ − Γ K)x(n).
+(3) Use the discrete control u(kh) = −K x ˜ (kh). The closed-loop system is
+described by x(n + 1) = (Φ − Γ K˜ )x(n).
+Simulate the three systems for the initial state x(0) = [1 0]. Use the Matlab
+command initial. Which discrete controller approximates the continuous
+controller the best?
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

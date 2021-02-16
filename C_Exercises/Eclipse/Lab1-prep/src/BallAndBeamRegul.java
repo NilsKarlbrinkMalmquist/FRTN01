@@ -62,17 +62,18 @@ public class BallAndBeamRegul extends Thread {
         		double refAng = pid_controller.calculateOutput(yPos, refPos);
         		synchronized(pi_controller) {
         			double yAng = analogInAngle.get();
-        			double vAng = pi_controller.calculateOutput(yAng, refAng);
-        			double uAng = limit(vAng);
-        			analogOut.set(uAng);
-        			pi_controller.updateState(uAng);
+        			double v = pi_controller.calculateOutput(yAng, refAng);
+        			double u = limit(v);
+        			analogOut.set(u);
+        			pi_controller.updateState(u);
         		}
         		pid_controller.updateState(refAng);
         	}
+        	analogRef.set(refPos);
         	
         	t = t + pid_controller.getHMillis(); //använda PID eller PI:s tid?
             long duration = t - System.currentTimeMillis();
-            if(duration > t) {
+            if(duration > 0) {
             	try {
             		sleep(duration);
             	}

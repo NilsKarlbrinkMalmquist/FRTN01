@@ -17,14 +17,15 @@ public class PID {
         //TODO C3.E8: Write your code here //
 		p = new PIDParameters();
 		p.Beta = 1.0;
-		p.H = 0.1;	 //0.02-0.1 - same as for the inner controller.
+		p.H = 0.08;	 //0.02-0.1 - same as for the inner controller.
 		p.integratorOn = false;
-		p.K = -0.01;	//-0.2 - -0.01
+		p.K = -0.1;	//-0.2 - -0.01
 		p.Ti = 0.0;
 		p.Tr = 10.0;
-		p.Td = 0.5; //0.5 - 4
-		p.N = 10; //5 - 10
-		
+		p.Td = 2; //0.5 - 4
+		p.N = 7; //5 - 10
+		ad = p.Td / (p.Td + p.N * p.H);
+		bd = p.K * ad * p.N;
 		new PIDGUI(this, p, name);
 		setParameters(p);
     }

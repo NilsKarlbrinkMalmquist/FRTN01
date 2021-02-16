@@ -12,9 +12,9 @@ public class PI {
         //TODO C3.E2: Write your code here //
 		PIParameters p = new PIParameters();
 		p.Beta = 1.0;
-		p.H = 0.1;	//0.02 - 0.1 - same as outer controller
+		p.H = 0.08;	//0.02 - 0.1 - same as outer controller
 		p.integratorOn = false;
-		p.K = 1.0;	//0.5 - 10
+		p.K = 1;	//0.5 - 10
 		p.Ti = 0.0;
 		p.Tr = 10.0;
 		new PIGUI(this, p, name);
