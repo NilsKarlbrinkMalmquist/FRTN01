@@ -11,7 +11,7 @@ public class PID {
     private double yOld = 0; // Old measurement signal
     private double ad; // Help variable for Derivative calculation
     private double bd; // Help variable for Derivative calculation
-	
+
 	// Constructor
 	public PID(String name) {
         //TODO C3.E8: Write your code here //
@@ -29,7 +29,7 @@ public class PID {
 		new PIDGUI(this, p, name);
 		setParameters(p);
     }
-	
+
 	// Calculates the control signal v.
 	// Called from BeamRegul.
 	public synchronized double calculateOutput(double y, double yref) {
@@ -40,7 +40,7 @@ public class PID {
 		this.y = y;
 		return v;
     }
-	
+
 	// Updates the controller state.
 	// Should use tracking-based anti-windup
 	// Called from BeamRegul.
@@ -52,16 +52,16 @@ public class PID {
 		else {
 			I = 0.0;
 		}
-		yOld = y; //Enl föreläsningsanteckningar?
+		yOld = y; //Enl fÃ¶relÃ¤sningsanteckningar?
     }
-	
+
 	// Returns the sampling interval expressed as a long.
 	// Note: Explicit type casting needed
 	public synchronized long getHMillis() {
         //TODO C3.E8: Write your code here //
 		return (long)(p.H * 1000.0);
     }
-	
+
 	// Sets the PIDParameters.
 	// Called from PIDGUI.
 	// Must clone newParameters.

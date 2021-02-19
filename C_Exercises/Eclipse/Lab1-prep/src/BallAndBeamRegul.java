@@ -3,7 +3,7 @@ import SimEnvironment.*;
 // BallAndBeamRegul class to be written by you
 public class BallAndBeamRegul extends Thread {
 
-    // IO Declarations 
+    // IO Declarations
     private AnalogSource analogInAngle;
     private AnalogSource analogInPosition;
     private AnalogSink analogOut;
@@ -30,7 +30,7 @@ public class BallAndBeamRegul extends Thread {
         pid_controller = new PID("PID");
         setPriority(priority);
     }
-	
+
     /**
      * Method limit:
      *
@@ -40,11 +40,11 @@ public class BallAndBeamRegul extends Thread {
      *     double: the saturated value
      */
     private double limit(double u) {
-        if (u < UMIN) 
+        if (u < UMIN)
             return UMIN;
-        else if (u > UMAX) 
+        else if (u > UMAX)
             return UMAX;
-        else 
+        else
             return u;
     }
 
@@ -53,11 +53,11 @@ public class BallAndBeamRegul extends Thread {
 		long t = System.currentTimeMillis();
         while (!Thread.interrupted()) {
             //TODO C3.E8: Write your code here //
-        	
+
         	//Read inputs:
         	double yPos = analogInPosition.get();
         	double refPos = refGen.getRef();
-        	
+
         	synchronized(pid_controller) {
         		double refAng = pid_controller.calculateOutput(yPos, refPos);
         		synchronized(pi_controller) {
@@ -70,8 +70,8 @@ public class BallAndBeamRegul extends Thread {
         		pid_controller.updateState(refAng);
         	}
         	analogRef.set(refPos);
-        	
-        	t = t + pid_controller.getHMillis(); //använda PID eller PI:s tid?
+
+        	t = t + pid_controller.getHMillis(); //anvÃ¤nda PID eller PI:s tid?
             long duration = t - System.currentTimeMillis();
             if(duration > 0) {
             	try {
