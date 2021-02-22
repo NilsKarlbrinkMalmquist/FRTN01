@@ -6,5 +6,8 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="lib" path="D:/Skola/Realtid/FRTN01/C_Exercises/Eclipse/csrt.jar"/>
+	<classpathentry kind="lib" path="D:/Skola/Realtid/FRTN01/C_Exercises/Eclipse/regler.jar"/>
+	<classpathentry kind="lib" path="D:/Skola/Realtid/FRTN01/C_Exercises/Eclipse/virtualsimulator.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
