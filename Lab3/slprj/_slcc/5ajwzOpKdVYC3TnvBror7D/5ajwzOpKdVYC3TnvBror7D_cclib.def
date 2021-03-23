@@ -1,0 +1,8 @@
+LIBRARY 5ajwzOpKdVYC3TnvBror7D_cclib.dll
+EXPORTS
+    get_dll_checksum_5ajwzOpKdVYC3TnvBror7D
+    vel_float_5ajwzOpKdVYC3TnvBror7D
+    pos_float_5ajwzOpKdVYC3TnvBror7D
+    vel_fixed_5ajwzOpKdVYC3TnvBror7D
+    pos_fixed_5ajwzOpKdVYC3TnvBror7D
+    get_checksum_source_info
