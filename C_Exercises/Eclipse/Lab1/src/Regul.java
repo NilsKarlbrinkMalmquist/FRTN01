@@ -136,18 +136,22 @@ public class Regul extends Thread {
                 		yPos = ballBeam.getBallPos();
                 		refPos = refGen.getRef();
                 		phiff = refGen.getPhiff();
+                		uff = refGen.getUff();
                 		double refAng = pidOuter.calculateOutput(yPos, refPos) + phiff;
                 		
                 		synchronized(piInner) {
-                			uff = refGen.getUff();
                 			yAng = ballBeam.getBeamAngle();
                 			v = piInner.calculateOutput(yAng, refAng) + uff;
                    			u = limit(v);
                 			ballBeam.setControlSignal(u);
                 			piInner.updateState(u - uff);
                 		}
-                		
-                		pidOuter.updateState(refAng - phiff);
+                		if(Math.abs(u) < 10) {
+                			pidOuter.updateState(refAng - phiff);
+                		}
+                		else {
+                			pidOuter.updateState(yAng - phiff);
+                		}         		
                 	}
                 	sendDataToOpCom(refPos, yPos, u);
                     break;
