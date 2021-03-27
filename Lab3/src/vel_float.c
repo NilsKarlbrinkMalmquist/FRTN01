@@ -1,5 +1,5 @@
 /* library needed to include the int16_t and int32_t types.
-it is needed also in the floating point controllers for the 
+it is needed also in the floating point controllers for the
 definition of outputs and inputs. */
 #include <inttypes.h>
 
@@ -11,15 +11,6 @@ definition of outputs and inputs. */
 static float I = 0;
 
 int16_t vel_float(int16_t r, int16_t y){
-
-    /**********************************/
-    // Implement your controller here //
-    /**********************************/
-    /*
-    Use only int16_t variables for the fixed-point 
-    implementation.
-    */
-
     float u = (K*beta*r) - (K*y) + I;
     I = I + (K*h/Ti)*(r-y);
 

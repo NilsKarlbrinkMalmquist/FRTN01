@@ -1,30 +1,38 @@
 A = [-0.12 0; 5 0];
-B = [2.25; 0]
+B = [2.25; 0];
 C = [0 1];
 D = 0;
 h = 0.05;
 I = eye(2);
-K = [k1, k2];
-t=h;
+poles = [0.8 + 0.1i, 0.8 - 0.1i];
 syms s k1 k2 real;
 
-%Calculate phi:
-%A^n will never become 0, therefore the first formula in the formula sheet to calculate phi with will not work. Use the second formula
-%in the formula sheet instead.
-phi = ilaplace(inv(s*I-A))
+%Create a system representing the continous-time state-space model
+G = ss(A,B,C,D)
 
-%syms x;
-%Calculate gamma:
-%fun = exp(A*x)
-%Fun = matlabFunction(fun);
-gamma = int(exp(A*s), 0, h)*B
+%Convert the continous-time dynamic system to discrete time
+H = c2d(G,0.05)
 
-%Calculate k1 & k2:
-z = 0.8 + 0.1i;
-%z = 0.8 - 0.1i
+%Calculate Phi and Gamma:
+Phi = H.A;
+Gamma = H.B;
 
+%Compute the K-matrix. Use place that computes a state-feedback matrix K
+K = place(Phi,Gamma,poles)
 
-func = det(z*I-phi+gamma*K) == 0;
-s1 = solve(func, [k1, k2]);
-k1 = s1.k1
-k2 = s1.k2
+%Compute kr
+kr = 1/(C*((I-Phi+Gamma*K)\Gamma))
+
+%--------------------------------------------------------------
+
+%Assignment 6:
+Phi_e = [Phi, Gamma; 0, 0, 1];
+
+Gamma_e = [Gamma; 0];
+
+C_e = [0,1,0];
+
+observer_poles = [0.6 + 0.2i, 0.6 - 0.2i, 0.55];
+
+L_e = place(Phi_e',C_e',observer_poles)
+

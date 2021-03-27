@@ -21,10 +21,11 @@ int16_t vel_fixed(int16_t r, int16_t y){                //function vel_fixed
     /**********************************/                //comment
     /*                                                  //comment
     Use only int16_t variables for the fixed-point      //comment
-    implementation.                                     //comment
+    implementa
+    on.                                     //comment
     */                                                  //comment
                                                         //Empty line
-    int32_t u_temp = (int32_t)((Kb*r) - (K*y) + (I << n)) >> n;
+    int32_t u_temp = ((int32_t)(Kb*r) - (int32_t)(K*y) + (int32_t)(I << n)) >> n;
     if(u_temp > 511){
         u_temp = 511;
     }
@@ -33,7 +34,7 @@ int16_t vel_fixed(int16_t r, int16_t y){                //function vel_fixed
     }
     u = (int16_t)u_temp;
 
-    int32_t I_temp = (int32_t)((I << n) + (Kh_Ti)*(r-y)) >> n;
+    int32_t I_temp = ((int32_t)(I << n) + (int32_t)(Kh_Ti)*(r-y)) >> n;
     I = (int16_t)I_temp;
 
     return u; // write output to D/A and end function
